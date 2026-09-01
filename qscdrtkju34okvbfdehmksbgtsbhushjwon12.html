@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Menu Soal - Asesmen Kelas XII</title>
 
   <meta name="robots" content="noindex, nofollow, noarchive">
@@ -196,6 +196,8 @@
       text-decoration: none;
       border-radius: 8px;
       transition: background 0.2s ease, transform 0.1s ease;
+      border: none;
+      cursor: pointer;
     }
 
     .btn:hover {
@@ -204,6 +206,50 @@
 
     .btn:active {
       transform: scale(0.98);
+    }
+
+    /* EMBEDDED EXAM MODAL / IFRAME */
+    #examModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
+      z-index: 10000;
+      flex-direction: column;
+    }
+
+    #examHeader {
+      height: 50px;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    #examHeader span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    #closeExamBtn {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #examIframe {
+      width: 100%;
+      height: calc(100vh - 50px);
+      border: none;
     }
   </style>
 </head>
@@ -215,6 +261,15 @@
     <h2>Mode Ujian Diharuskan</h2>
     <p>Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
     <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
+  </div>
+
+  <!-- EMBEDDED EXAM CONTAINER (KEPT INSIDE THE WEBSITE) -->
+  <div id="examModal">
+    <div id="examHeader">
+      <span>Lembar Soal Asesmen</span>
+      <button id="closeExamBtn" onclick="closeExam()">Tutup Soal</button>
+    </div>
+    <iframe id="examIframe" src="about:blank"></iframe>
   </div>
 
   <div class="container" id="mainContainer">
@@ -234,8 +289,7 @@
     <div class="jadwal">
       <div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div>
       <div class="content">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?usp=header" class="btn">Uji Coba Lab Exam</a>
-        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?embedded=true')" class="btn">Uji Coba Lab Exam</button>
       </div>
     </div>
             
@@ -243,7 +297,7 @@
     <div class="jadwal">
       <div class="label" onclick="toggle(this)">Jam ke-2</div>
       <div class="content">
-        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+        <button onclick="openExam('https://linksoal1c.com')" class="btn" style="display:none;">Paket C</button>
       </div>
     </div>
 
@@ -251,7 +305,7 @@
     <div class="jadwal">
       <div class="label" onclick="toggle(this)">Jam ke-3</div>
       <div class="content">
-        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+        <button onclick="openExam('https://linksoal1c.com')" class="btn" style="display:none;">Paket C</button>
       </div>
     </div>
     
@@ -259,10 +313,10 @@
     <div class="jadwal">
       <div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
       <div class="content">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>         
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform" class="btn">AS BAB1 PP</a>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform" class="btn">Pra ASTS-1 Kimia XII-2</a>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a> 
+        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?embedded=true')" class="btn">Remidi Fisika Listrik Statis</button>         
+        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform?embedded=true')" class="btn">AS BAB1 PP</button>
+        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform?embedded=true')" class="btn">Pra ASTS-1 Kimia XII-2</button>
+        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform?embedded=true')" class="btn">Pra ASTS-1 Kimia XII-3</button> 
       </div>
     </div>
   </div>
@@ -270,15 +324,24 @@
 <script>
   let isSecretUnlocked = false;
 
-  // Force Fullscreen Handler
+  // Detect iOS / iPhone / iPad
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  // Force Fullscreen Handler (Supports Android, Desktop, & Fallback for iPhone)
   function enterFullscreen() {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
-      elem.requestFullscreen();
+      elem.requestFullscreen().catch(() => {});
     } else if (elem.webkitRequestFullscreen) {
       elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen();
+    }
+    
+    // On iPhone/iOS where standard HTML Fullscreen is unsupported, dismiss overlay manually
+    if (isIOS) {
+      document.getElementById('fullscreenOverlay').style.display = 'none';
     }
   }
 
@@ -288,6 +351,9 @@
   document.addEventListener('msfullscreenchange', exitHandler);
 
   function exitHandler() {
+    // Skip native fullscreen state checks for iOS devices
+    if (isIOS) return;
+
     const isFS = document.fullscreenElement || document.webkitIsFullScreen || document.msFullscreenElement;
     if (!isFS) {
       if (!isSecretUnlocked) {
@@ -296,6 +362,21 @@
     } else {
       document.getElementById('fullscreenOverlay').style.display = 'none';
     }
+  }
+
+  // OPEN EXAM INSIDE EMBEDDED IFRAME
+  function openExam(url) {
+    const modal = document.getElementById('examModal');
+    const iframe = document.getElementById('examIframe');
+    iframe.src = url;
+    modal.style.display = 'flex';
+  }
+
+  function closeExam() {
+    const modal = document.getElementById('examModal');
+    const iframe = document.getElementById('examIframe');
+    iframe.src = 'about:blank';
+    modal.style.display = 'none';
   }
 
   // SECRET EXIT FEATURE (Tap Teks Jam 5x)
@@ -309,12 +390,13 @@
     if (tapCount >= 5) {
       isSecretUnlocked = true;
       if (document.exitFullscreen) {
-        document.exitFullscreen();
+        document.exitFullscreen().catch(() => {});
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
       } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
       }
+      document.getElementById('fullscreenOverlay').style.display = 'none';
       tapCount = 0;
     } else {
       tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
@@ -355,18 +437,6 @@
   // Nonaktifkan klik kanan
   document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
-  });
-
-  // Paksa buka di halaman yang sama
-  document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.location.href = this.href;
-    });
-
-    link.addEventListener('auxclick', function(e) {
-      e.preventDefault();
-    });
   });
 </script>
 
