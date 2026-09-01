@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
-</head>
-<body>
-  <div id="app">Loading latest content...</div>
-
-  <script>
-    // URL pointing directly to your friend's raw HTML file
-    const TARGET_URL = 'https://raw.githubusercontent.com/FRIEND_USERNAME/FRIEND_REPO/main/index.html';
-
-    async function loadContent() {
-      try {
-        const response = await fetch(`${TARGET_URL}?t=${Date.now()}`); // Prevent caching
-        if (!response.ok) throw new Error('Failed to load page');
-        const html = await response.text();
-        
-        document.open();
-        document.write(html);
-        document.close();
-      } catch (err) {
-        document.getElementById('app').innerText = 'Gagal memuat halaman: ' + err.message;
-      }
-    }
-
-    loadContent();
-  </script>
-</body>
-</html>
+git clone https://github.com/aplsmalab-svg/4535m3n.git
+cd 4535m3n
+git remote set-url origin https://github.com/PkPBsSejati-svg/pkp.git
+git push -u origin main
