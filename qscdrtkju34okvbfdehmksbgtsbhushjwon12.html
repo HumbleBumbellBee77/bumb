@@ -216,17 +216,17 @@
 
     <!-- NAVIGATION TAB -->
     <nav class="navbar">
-      <div class="nav-item" onclick="switchTab('home', this)">Home</div>
+      <div class="nav-item active" onclick="switchTab('home', this)">Home</div>
       <div class="nav-item" onclick="switchTab('kelas10', this)">Kelas X</div>
       <div class="nav-item" onclick="switchTab('kelas11', this)">Kelas XI</div>
-      <div class="nav-item active" onclick="switchTab('kelas12', this)">Kelas XII</div>
+      <div class="nav-item" onclick="switchTab('kelas12', this)">Kelas XII</div>
     </nav>
 
     <!-- TAB 1: HOME -->
-    <div id="home" class="tab-content">
+    <div id="home" class="tab-content active">
       <div class="home-title">SMA KRISTEN SATYA WACANA</div>
       <div class="home-sub">Leader - Explorer - Achiever - Disciple</div>
-      <img src="https://pkpbssejati-svg.github.io/PkPBsSejati-svg/asesmen.png" alt="Asesmen" class="home-img">
+      <img src="asesemen.png" alt="Asesmen" class="home-img" onerror="this.src='https://pkpbssejati-svg.github.io/PkPBsSejati-svg/asesmen.png'">
       <div class="home-footer">n03g</div>
     </div>
 
@@ -263,7 +263,7 @@
     </div>
 
     <!-- TAB 4: KELAS XII -->
-    <div id="kelas12" class="tab-content active">
+    <div id="kelas12" class="tab-content">
       <div class="class-header">ASESMEN KELAS XII</div>
       <div class="running-text">Takut akan TUHAN adalah permulaan pengetahuan</div>
       <div class="datetime secret-trigger" onclick="handleSecretTap()">-- Loading Date --</div>
@@ -363,7 +363,7 @@
       content.style.display = (content.style.display === "block") ? "none" : "block";
     }
 
-    // Live Date & Time Counter (Identik dengan format script GitHub)
+    // Live Date & Time Counter
     function updateDateTime() {
       const now = new Date();
       const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
