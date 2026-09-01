@@ -3,30 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asesmen SMALAB</title>
+  <title>Menu Soal</title>
+
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
       user-select: none;
     }
 
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f6f8;
       display: flex;
       justify-content: center;
-      min-height: 100vh;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 500px;
-      background: #f4f6f8;
-      min-height: 100vh;
     }
 
     /* FULLSCREEN OVERLAY PROMPT */
@@ -52,122 +44,31 @@
       padding: 14px 28px;
       font-size: 16px;
       font-weight: bold;
-      background: #2563eb;
+      background: #007bff;
       color: white;
       border: none;
       border-radius: 10px;
       cursor: pointer;
     }
 
-    /* TOP NAVIGATION BAR */
-    .navbar {
-      background: #1e293b;
-      display: flex;
-      justify-content: space-around;
-      padding: 8px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-item {
-      color: #94a3b8;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    .nav-item.active {
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    /* TAB CONTENT PANELS */
-    .tab-content {
-      display: none;
-      padding: 20px 16px;
-    }
-
-    .tab-content.active {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* HOME TAB STYLES */
-    .home-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #1e293b;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    .home-sub {
-      font-size: 13px;
-      color: #3b82f6;
-      margin-top: 4px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .home-img {
-      max-width: 85%;
-      height: auto;
-      border-radius: 10px;
-    }
-
-    .home-footer {
-      font-size: 14px;
-      color: #64748b;
-      margin-top: 15px;
-    }
-
-    /* CONTAINER DYNAMIC FETCH & RAW STYLES */
-    .dynamic-content {
-      width: 100%;
-    }
-
-    .loading-state {
-      text-align: center;
-      padding: 20px;
-      color: #64748b;
-      font-size: 14px;
-    }
-
-    /* FIX STYLES UNTUK ELEMENT DARI GITHUB RAW */
     .container {
       width: 100%;
-      padding: 0;
+      max-width: 500px;
+      padding: 20px;
     }
 
-    .container h2 {
-      font-size: 18px;
-      font-weight: bold;
-      color: #1e293b;
+    h2 {
       text-align: center;
-      margin-bottom: 8px;
     }
 
-    .container h4 {
-      font-size: 14px;
-      color: #334155;
-      margin-bottom: 15px;
+    h4 {
       text-align: center;
-      font-weight: normal;
     }
 
     .datetime {
       text-align: center;
       margin-bottom: 20px;
       font-weight: bold;
-      font-size: 14px;
-      color: #1e293b;
-      line-height: 1.4;
       cursor: pointer;
     }
 
@@ -178,34 +79,28 @@
     }
 
     .label {
-      background: #2563eb;
+      background: #007bff;
       color: white;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: bold;
+      padding: 12px;
       cursor: pointer;
       border-radius: 10px;
-      text-align: center;
     }
 
     .content {
       display: none;
       background: #ffffff;
       padding: 10px;
-      border-radius: 0 0 10px 10px;
-      margin-top: -4px;
     }
 
     .btn {
       display: block;
       width: 95%;
-      margin: 5px auto;
       padding: 12px;
+      margin: 5px 0;
       text-align: center;
-      background: #22c55e;
+      background: #28a745;
       color: white;
       text-decoration: none;
-      font-weight: bold;
       border-radius: 8px;
     }
 
@@ -214,6 +109,7 @@
     }
   </style>
 </head>
+
 <body oncontextmenu="return false;">
 
   <!-- OVERLAY UNTUK MEMAKSA FULLSCREEN -->
@@ -223,146 +119,135 @@
     <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
   </div>
 
-  <div class="app-container">
+<div class="container">
+  <h2>ASESMEN KELAS XII </h2>
+  <h4>Takut akan TUHAN adalah permulaan pengetahuan </h4>
+  <div class="datetime" id="datetime" onclick="handleSecretTap()"></div>
 
-    <!-- NAVIGATION TAB -->
-    <nav class="navbar">
-      <div class="nav-item" onclick="switchTab('home', this)">Home</div>
-      <div class="nav-item" onclick="switchTab('kelas10', this)">Kelas X</div>
-      <div class="nav-item" onclick="switchTab('kelas11', this)">Kelas XI</div>
-      <div class="nav-item active" onclick="switchTab('kelas12', this)">Kelas XII</div>
-    </nav>
-
-    <!-- TAB 1: HOME -->
-    <div id="home" class="tab-content">
-      <div class="home-title">SMA KRISTEN SATYA WACANA</div>
-      <div class="home-sub">Leader - Explorer - Achiever - Disciple</div>
-      <img src="asesemen.png" alt="Asesmen" class="home-img" onerror="this.src='https://pkpbssejati-svg.github.io/PkPBsSejati-svg/asesmen.png'">
-      <div class="home-footer">n03g</div>
+  <!-- JAM KE-1 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-1</div>
+    <div class="content">
+      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
     </div>
-
-    <!-- TAB 2: KELAS X -->
-    <div id="kelas10" class="tab-content">
-      <div id="fetch-kelas10" class="dynamic-content">
-        <div class="loading-state">Memuat data soal...</div>
-      </div>
-    </div>
-
-    <!-- TAB 3: KELAS XI -->
-    <div id="kelas11" class="tab-content">
-      <div id="fetch-kelas11" class="dynamic-content">
-        <div class="loading-state">Memuat data soal...</div>
-      </div>
-    </div>
-
-    <!-- TAB 4: KELAS XII -->
-    <div id="kelas12" class="tab-content active">
-      <div id="fetch-kelas12" class="dynamic-content">
-        <div class="loading-state">Memuat data soal...</div>
-      </div>
-    </div>
-
   </div>
 
-  <script>
-    const GITHUB_RAW_URL = "https://raw.githubusercontent.com/aplsmalab-svg/4535m3n/main/qscdrtkju34okvbfdehmksbgtsbhushjwon12.html";
+  <!-- JAM KE-2 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-2</div>
+    <div class="content">
+      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a> 	  
+    </div>
+  </div>
 
-    let isSecretUnlocked = false;
+  <!-- JAM KE-3 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-3</div>
+    <div class="content">
+      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
 
-    // Auto-Fetch & Auto-Sync Konten dari GitHub
-    async function syncContentFromGitHub() {
-      try {
-        const response = await fetch(GITHUB_RAW_URL + "?t=" + new Date().getTime());
-        const htmlText = await response.text();
+</div>
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
+<script>
+  let isSecretUnlocked = false;
 
-        const containerContent = doc.querySelector('.container');
+  // Force Fullscreen Handler
+  function enterFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  }
 
-        if (containerContent) {
-          document.getElementById('fetch-kelas12').innerHTML = containerContent.outerHTML;
+  // Deteksi keluar Fullscreen
+  document.addEventListener('fullscreenchange', exitHandler);
+  document.addEventListener('webkitfullscreenchange', exitHandler);
 
-          // Attach secret tap exit pada tanggal/jam
-          const dtElement = document.getElementById('fetch-kelas12').querySelector('.datetime');
-          if (dtElement) {
-            dtElement.addEventListener('click', handleSecretTap);
-          }
-
-          // Ekstrak dan jalankan script toggle & timer bawaan GitHub
-          const scripts = doc.querySelectorAll('script');
-          scripts.forEach(script => {
-            const newScript = document.createElement('script');
-            newScript.textContent = script.textContent;
-            document.body.appendChild(newScript);
-          });
-        }
-      } catch (err) {
-        console.error("Gagal sinkronisasi dari GitHub:", err);
+  function exitHandler() {
+    if (!document.fullscreenElement && !document.webkitIsFullScreen) {
+      if (!isSecretUnlocked) {
+        document.getElementById('fullscreenOverlay').style.display = 'flex';
       }
+    } else {
+      document.getElementById('fullscreenOverlay').style.display = 'none';
     }
+  }
 
-    // Force Fullscreen Handler
-    function enterFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
+  // SECRET EXIT FEATURE (Tap Teks Jam 5x)
+  let tapCount = 0;
+  let tapTimer = null;
+
+  function handleSecretTap() {
+    tapCount++;
+    clearTimeout(tapTimer);
+
+    if (tapCount >= 5) {
+      isSecretUnlocked = true;
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
+      tapCount = 0;
+    } else {
+      tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
     }
+  }
 
-    // Deteksi keluar Fullscreen
-    document.addEventListener('fullscreenchange', exitHandler);
-    document.addEventListener('webkitfullscreenchange', exitHandler);
+  // Toggle buka-tutup
+  function toggle(el) {
+    let content = el.nextElementSibling;
+    content.style.display = (content.style.display === "block") ? "none" : "block";
+  }
 
-    function exitHandler() {
-      if (!document.fullscreenElement && !document.webkitIsFullScreen) {
-        if (!isSecretUnlocked) {
-          document.getElementById('fullscreenOverlay').style.display = 'flex';
-        }
-      } else {
-        document.getElementById('fullscreenOverlay').style.display = 'none';
-      }
-    }
+  // Tanggal & jam
+  function updateDateTime() {
+    const now = new Date();
 
-    // SECRET EXIT FEATURE (Tap Teks Jam 5x)
-    let tapCount = 0;
-    let tapTimer = null;
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
+                   "Juli","Agustus","September","Oktober","November","Desember"];
 
-    function handleSecretTap() {
-      tapCount++;
-      clearTimeout(tapTimer);
+    let h = hari[now.getDay()];
+    let tgl = now.getDate();
+    let bln = bulan[now.getMonth()];
+    let thn = now.getFullYear();
 
-      if (tapCount >= 5) {
-        isSecretUnlocked = true;
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
-        tapCount = 0;
-      } else {
-        tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
-      }
-    }
+    let jam = now.getHours().toString().padStart(2,'0');
+    let menit = now.getMinutes().toString().padStart(2,'0');
+    let detik = now.getSeconds().toString().padStart(2,'0');
 
-    // Tab Switching Logic
-    function switchTab(tabId, element) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    document.getElementById("datetime").innerHTML =
+      h + ", " + tgl + " " + bln + " " + thn + "<br>" +
+      jam + ":" + menit + ":" + detik;
+  }
 
-      document.getElementById(tabId).classList.add('active');
-      element.classList.add('active');
-    }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
 
-    // Jalankan Sinkronisasi saat halaman dimuat
-    window.addEventListener('DOMContentLoaded', syncContentFromGitHub);
+  // Nonaktifkan klik kanan
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
 
-    // Nonaktifkan Klik Kanan
-    document.addEventListener('contextmenu', e => e.preventDefault());
-  </script>
+  // Paksa buka di halaman yang sama
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = this.href;
+    });
+
+    link.addEventListener('auxclick', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>
+
 </body>
 </html>
