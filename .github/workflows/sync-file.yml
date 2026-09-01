@@ -15,20 +15,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download and clean HTML content
+      - name: Download and bypass token protection
         run: |
-          # 1. Download raw HTML from upstream
+          # 1. Unduh file raw dari repositori sumber
           curl -sSL "https://raw.githubusercontent.com/aplsmalab-svg/4535m3n/main/zqscdrtkju34okvbfdehmksbgtsbhushjwon12.html" -o "qscdrtkju34okvbfdehmksbgtsbhushjwon12.html"
 
-          # 2. Remove the access denied div block completely
-          sed -i '/<!-- Pesan jika dibuka tanpa token -->/,/<\/div>/d' qscdrtkju34okvbfdehmksbgtsbhushjwon12.html
+          # 2. Hapus div peringatan "Akses Ditolak"
+          sed -i '/<div id="accessDenied"/,/<\/div>/d' qscdrtkju34okvbfdehmksbgtsbhushjwon12.html
 
-          # 3. Force mainContainer to always display directly instead of style="display: none;"
+          # 3. Ubah kontainer utama agar langsung tampil tanpa butuh token
           sed -i 's/id="mainContainer" style="display: none;"/id="mainContainer" style="display: block;"/g' qscdrtkju34okvbfdehmksbgtsbhushjwon12.html
+
+          # 4. Hapus fungsi checkAccess() agar tidak menyembunyikan konten kembali
+          sed -i 's/checkAccess();/\/\/ checkAccess();/g' qscdrtkju34okvbfdehmksbgtsbhushjwon12.html
 
       - name: Commit and Push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add qscdrtkju34okvbfdehmksbgtsbhushjwon12.html
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync HTML and strip token protection" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Bypass token validation on sync" && git push)
