@@ -127,7 +127,7 @@
       margin-top: 15px;
     }
 
-    /* CONTAINER DYNAMIC FETCH */
+    /* CONTAINER DYNAMIC FETCH & RAW STYLES */
     .dynamic-content {
       width: 100%;
     }
@@ -137,6 +137,80 @@
       padding: 20px;
       color: #64748b;
       font-size: 14px;
+    }
+
+    /* FIX STYLES UNTUK ELEMENT DARI GITHUB RAW */
+    .container {
+      width: 100%;
+      padding: 0;
+    }
+
+    .container h2 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .container h4 {
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: normal;
+    }
+
+    .datetime {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #1e293b;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .jadwal {
+      margin-bottom: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .label {
+      background: #2563eb;
+      color: white;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .content {
+      display: none;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 0 0 10px 10px;
+      margin-top: -4px;
+    }
+
+    .btn {
+      display: block;
+      width: 95%;
+      margin: 5px auto;
+      padding: 12px;
+      text-align: center;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
@@ -153,14 +227,14 @@
 
     <!-- NAVIGATION TAB -->
     <nav class="navbar">
-      <div class="nav-item active" onclick="switchTab('home', this)">Home</div>
+      <div class="nav-item" onclick="switchTab('home', this)">Home</div>
       <div class="nav-item" onclick="switchTab('kelas10', this)">Kelas X</div>
       <div class="nav-item" onclick="switchTab('kelas11', this)">Kelas XI</div>
-      <div class="nav-item" onclick="switchTab('kelas12', this)">Kelas XII</div>
+      <div class="nav-item active" onclick="switchTab('kelas12', this)">Kelas XII</div>
     </nav>
 
     <!-- TAB 1: HOME -->
-    <div id="home" class="tab-content active">
+    <div id="home" class="tab-content">
       <div class="home-title">SMA KRISTEN SATYA WACANA</div>
       <div class="home-sub">Leader - Explorer - Achiever - Disciple</div>
       <img src="asesemen.png" alt="Asesmen" class="home-img" onerror="this.src='https://pkpbssejati-svg.github.io/PkPBsSejati-svg/asesmen.png'">
@@ -182,7 +256,7 @@
     </div>
 
     <!-- TAB 4: KELAS XII -->
-    <div id="kelas12" class="tab-content">
+    <div id="kelas12" class="tab-content active">
       <div id="fetch-kelas12" class="dynamic-content">
         <div class="loading-state">Memuat data soal...</div>
       </div>
@@ -191,7 +265,6 @@
   </div>
 
   <script>
-    // URL Raw dari GitHub Repository
     const GITHUB_RAW_URL = "https://raw.githubusercontent.com/aplsmalab-svg/4535m3n/main/qscdrtkju34okvbfdehmksbgtsbhushjwon12.html";
 
     let isSecretUnlocked = false;
@@ -199,27 +272,24 @@
     // Auto-Fetch & Auto-Sync Konten dari GitHub
     async function syncContentFromGitHub() {
       try {
-        // Mencegah cache browser agar selalu mengambil revisi GitHub paling baru
         const response = await fetch(GITHUB_RAW_URL + "?t=" + new Date().getTime());
         const htmlText = await response.text();
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlText, 'text/html');
 
-        // Mengambil elemen .container dari file mentah GitHub
         const containerContent = doc.querySelector('.container');
 
         if (containerContent) {
-          // Masukkan konten mentah ke tab Kelas XII (dan tab kelas lainnya jika diperlukan)
-          document.getElementById('fetch-kelas12').innerHTML = containerContent.innerHTML;
+          document.getElementById('fetch-kelas12').innerHTML = containerContent.outerHTML;
 
-          // Pasang trigger tap rahasia ke elemen tanggal/jam yang baru di-fetch
+          // Attach secret tap exit pada tanggal/jam
           const dtElement = document.getElementById('fetch-kelas12').querySelector('.datetime');
           if (dtElement) {
             dtElement.addEventListener('click', handleSecretTap);
           }
 
-          // Ekstrak dan jalankan script bawaan GitHub (misal: live clock & toggle)
+          // Ekstrak dan jalankan script toggle & timer bawaan GitHub
           const scripts = doc.querySelectorAll('script');
           scripts.forEach(script => {
             const newScript = document.createElement('script');
@@ -228,7 +298,7 @@
           });
         }
       } catch (err) {
-        console.error("Gagal melakukan sinkronisasi otomatis dari GitHub:", err);
+        console.error("Gagal sinkronisasi dari GitHub:", err);
       }
     }
 
@@ -288,7 +358,7 @@
       element.classList.add('active');
     }
 
-    // Jalankan Sinkronisasi Otomatis saat halaman dimuat
+    // Jalankan Sinkronisasi saat halaman dimuat
     window.addEventListener('DOMContentLoaded', syncContentFromGitHub);
 
     // Nonaktifkan Klik Kanan
