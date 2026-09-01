@@ -3,22 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Soal</title>
+  <title>Menu Soal - Asesmen Kelas XII</title>
 
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --btn-bg: #16a34a;
+      --btn-hover: #15803d;
+      --border-radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
     * {
       box-sizing: border-box;
       user-select: none;
+      -webkit-user-select: none;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
+      min-height: 100vh;
+      padding: 20px 16px;
     }
 
     /* FULLSCREEN OVERLAY PROMPT */
@@ -28,80 +46,160 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: #0f172a;
-      color: white;
+      background: #090d16;
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       text-align: center;
-      padding: 20px;
+      padding: 24px;
+    }
+
+    #fullscreenOverlay h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    #fullscreenOverlay p {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #94a3b8;
     }
 
     #fullscreenOverlay button {
-      margin-top: 20px;
-      padding: 14px 28px;
-      font-size: 16px;
-      font-weight: bold;
-      background: #007bff;
+      margin-top: 24px;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--primary-color);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--border-radius);
       cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    #fullscreenOverlay button:hover {
+      background: var(--primary-hover);
     }
 
     .container {
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .header-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
       padding: 20px;
-    }
-
-    h2 {
+      box-shadow: var(--shadow);
       text-align: center;
     }
 
-    h4 {
-      text-align: center;
+    .header-card h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+    }
+
+    .running-text-container {
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 6px 12px;
+      margin: 12px 0;
+    }
+
+    .running-text h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary-color);
     }
 
     .datetime {
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight: bold;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1.4;
       cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
     }
 
+    .datetime:active {
+      background: #e2e8f0;
+    }
+
+    /* ACCORDION JADWAL */
     .jadwal {
-      margin-bottom: 5px;
-      border-radius: 10px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .label {
-      background: #007bff;
+      background: var(--primary-color);
       color: white;
-      padding: 10px;
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 0.95rem;
       cursor: pointer;
-      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s ease;
+    }
+
+    .label:hover {
+      background: var(--primary-hover);
+    }
+
+    .label::after {
+      content: '▼';
+      font-size: 0.75rem;
+      transition: transform 0.3s ease;
+    }
+
+    .jadwal.active .label::after {
+      transform: rotate(180deg);
     }
 
     .content {
       display: none;
-      background: #ffffff;
-      padding: 10px;
+      padding: 12px;
+      flex-direction: column;
+      gap: 8px;
+      background: var(--card-bg);
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .jadwal.active .content {
+      display: flex;
     }
 
     .btn {
       display: block;
-      width: 94%;
-      padding: 10px;
-      margin: 5px 0;
+      width: 100%;
+      padding: 12px 14px;
       text-align: center;
-      background: #28a745;
+      background: var(--btn-bg);
       color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
       text-decoration: none;
       border-radius: 8px;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover {
+      background: var(--btn-hover);
     }
 
     .btn:active {
@@ -115,20 +213,26 @@
   <!-- OVERLAY UNTUK MEMAKSA FULLSCREEN -->
   <div id="fullscreenOverlay">
     <h2>Mode Ujian Diharuskan</h2>
-    <p style="margin-top: 10px; font-size: 14px; color: #cbd5e1;">Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
+    <p>Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
     <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
   </div>
 
   <div class="container" id="mainContainer">
-    <h2 style="margin-top: 0;">ASESMEN KELAS XII </h2>
-    <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
-      <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
-    </marquee>
-    <div class="datetime" id="datetime" onclick="handleSecretTap()"></div>
+    <div class="header-card">
+      <h2>ASESMEN KELAS XII</h2>
+      
+      <div class="running-text-container">
+        <marquee class="running-text" behavior="scroll" direction="left" scrollamount="5">
+          <h4>Takut akan TUHAN adalah permulaan pengetahuan</h4>
+        </marquee>
+      </div>
+
+      <div class="datetime" id="datetime" onclick="handleSecretTap()"></div>
+    </div>
 
     <!-- JAM KE-1 -->
     <div class="jadwal">
-      <div class="label" onClick="toggle(this)">UJI COBA LAB EXAM</div>
+      <div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div>
       <div class="content">
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?usp=header" class="btn">Uji Coba Lab Exam</a>
         <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
@@ -137,7 +241,7 @@
             
     <!-- JAM KE-2 -->
     <div class="jadwal">
-      <div class="label" onClick="toggle(this)">Jam ke-2</div>
+      <div class="label" onclick="toggle(this)">Jam ke-2</div>
       <div class="content">
         <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
       </div>
@@ -145,7 +249,7 @@
 
     <!-- JAM KE-3 -->
     <div class="jadwal">
-      <div class="label" onClick="toggle(this)">Jam ke-3</div>
+      <div class="label" onclick="toggle(this)">Jam ke-3</div>
       <div class="content">
         <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
       </div>
@@ -153,12 +257,12 @@
     
     <!-- UMUM -->
     <div class="jadwal">
-      <div class="label" onClick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
+      <div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
       <div class="content">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>	  	  
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>         
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform" class="btn">AS BAB1 PP</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform" class="btn">Pra ASTS-1 Kimia XII-2</a>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a>	
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a> 
       </div>
     </div>
   </div>
@@ -181,9 +285,11 @@
   // Deteksi keluar Fullscreen
   document.addEventListener('fullscreenchange', exitHandler);
   document.addEventListener('webkitfullscreenchange', exitHandler);
+  document.addEventListener('msfullscreenchange', exitHandler);
 
   function exitHandler() {
-    if (!document.fullscreenElement && !document.webkitIsFullScreen) {
+    const isFS = document.fullscreenElement || document.webkitIsFullScreen || document.msFullscreenElement;
+    if (!isFS) {
       if (!isSecretUnlocked) {
         document.getElementById('fullscreenOverlay').style.display = 'flex';
       }
@@ -206,6 +312,8 @@
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
       }
       tapCount = 0;
     } else {
@@ -213,10 +321,10 @@
     }
   }
 
-  // Toggle buka-tutup
+  // Toggle buka-tutup accordion
   function toggle(el) {
-    let content = el.nextElementSibling;
-    content.style.display = (content.style.display === "block") ? "none" : "block";
+    const parent = el.parentElement;
+    parent.classList.toggle('active');
   }
 
   // Tanggal & jam
