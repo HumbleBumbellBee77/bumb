@@ -84,13 +84,9 @@
 <body>
 
 <!-- Pesan jika dibuka tanpa token -->
-<div id="accessDenied" class="access-denied">
-  <h2>Akses Ditolak</h2>
-  <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
-</div>
 
 <!-- Konten Utama (Default tersembunyi sampai token terverifikasi) -->
-<div class="container" id="mainContainer" style="display: none;">
+<div class="container" id="mainContainer" style="display: block;">
   <h2 style="margin-top: 0;">ASESMEN KELAS XII </h2>
  <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
  <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
@@ -150,7 +146,7 @@
   }
 
   // Jalankan pemeriksaan akses saat halaman dimuat
-  checkAccess();
+  // checkAccess();
 
   // Toggle buka-tutup
   function toggle(el) {
