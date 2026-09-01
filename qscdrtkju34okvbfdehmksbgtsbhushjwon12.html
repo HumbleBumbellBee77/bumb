@@ -2,9 +2,14 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Menu Soal</title>
   <meta name="robots" content="noindex, nofollow, noarchive">
+
+  <!-- FITUR KHUSUS IOS FULLSCREEN (PWA / WEBAPP MODE) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Menu Soal">
 
   <style>
     * {
@@ -15,6 +20,12 @@
       padding: 0;
     }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -23,6 +34,9 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      /* Penanganan Notch & Home Bar iOS */
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     /* FULLSCREEN OVERLAY */
@@ -53,6 +67,16 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+    }
+
+    /* BISA DI-PINDAHKAN KE HOME SCREEN PADA IOS */
+    .ios-pwa-hint {
+      display: none;
+      margin-top: 15px;
+      font-size: 12px;
+      color: #94a3b8;
+      max-width: 280px;
+      line-height: 1.4;
     }
 
     /* TOP NAVIGATION TABS */
@@ -189,6 +213,16 @@
       height: 100%;
       border: none;
     }
+
+    /* FITUR IOS SIMULATED FULLSCREEN OVERLAY (UTUTUP SEMUA UI BROWSER) */
+    body.ios-simulated-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -199,6 +233,11 @@
     <h2>Mode Ujian Diharuskan</h2>
     <p style="margin-top: 10px; font-size: 14px; color: #cbd5e1;">Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
     <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
+
+    <!-- PETUNJUK KHUSUS IOS/IPHONE -->
+    <div id="iosHint" class="ios-pwa-hint">
+      *Untuk iOS/iPhone: Tekan tombol <b>Bagikan (Share)</b> di Safari lalu pilih <b>"Tambah ke Utama" (Add to Home Screen)</b> agar dapat berjalan dalam mode aplikasi penuh tanpa bar alamat.
+    </div>
   </div>
 
   <!-- NAVIGASI ATAS -->
@@ -308,13 +347,23 @@
 <script>
   let isSecretUnlocked = false;
 
-  // Deteksi iPhone / iOS
+  // DETEKSI PERANGKAT IOS / IPHONE / IPAD
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-  // Force Fullscreen
+  // DETEKSI APAKAH DIBUKA DARI HOMESCREEN (STANDALONE PWA MODE)
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (isIOS) {
+      document.getElementById('iosHint').style.display = 'block';
+    }
+  });
+
+  // MASUK MODE FULLSCREEN ATAU SIMULASI FULLSCREEN IOS
   function enterFullscreen() {
     const elem = document.documentElement;
+
     if (elem.requestFullscreen) {
       elem.requestFullscreen().catch(() => {});
     } else if (elem.webkitRequestFullscreen) {
@@ -323,7 +372,10 @@
       elem.msRequestFullscreen();
     }
     
+    // Khusus iOS
     if (isIOS) {
+      window.scrollTo(0, 1);
+      document.body.classList.add('ios-simulated-fullscreen');
       document.getElementById('fullscreenOverlay').style.display = 'none';
     }
   }
@@ -341,7 +393,7 @@
     }
   }
 
-  // Buka Soal tanpa Menghilangkan Tab Navigasi
+  // BUKA SOAL
   function openExam(url) {
     document.getElementById('mainContainer').style.display = 'none';
     const frameContainer = document.getElementById('examFrameContainer');
@@ -351,9 +403,8 @@
     frameContainer.style.display = 'block';
   }
 
-  // Pindah Tab Navigasi
+  // PINDAH TAB NAVIGASI
   function switchTab(tabId, btn) {
-    // Sembunyikan iframe jika sedang terbuka
     document.getElementById('examFrameContainer').style.display = 'none';
     document.getElementById('examIframe').src = 'about:blank';
     document.getElementById('mainContainer').style.display = 'block';
@@ -365,7 +416,7 @@
     btn.classList.add('active');
   }
 
-  // Toggle Accordion
+  // TOGGLE ACCORDION
   function toggle(el) {
     let content = el.nextElementSibling;
     if (content) {
@@ -373,7 +424,7 @@
     }
   }
 
-  // Secret Tap
+  // SECRET TAP UNTUK KELUAR FULLSCREEN / UNLOCK
   let tapCount = 0;
   let tapTimer = null;
   function handleSecretTap() {
@@ -382,11 +433,17 @@
 
     if (tapCount >= 5) {
       isSecretUnlocked = true;
+      
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
       }
+
+      if (isIOS) {
+        document.body.classList.remove('ios-simulated-fullscreen');
+      }
+
       document.getElementById('fullscreenOverlay').style.display = 'none';
       tapCount = 0;
     } else {
@@ -394,7 +451,7 @@
     }
   }
 
-  // Date & Time Ticker
+  // DATE & TIME TICKER
   function updateDateTime() {
     const now = new Date();
     const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
