@@ -1,4 +1,205 @@
-git clone https://github.com/aplsmalab-svg/4535m3n.git
-cd 4535m3n
-git remote set-url origin https://github.com/PkPBsSejati-svg/pkp.git
-git push -u origin main
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Soal</title>
+
+  <meta name="robots" content="noindex, nofollow, noarchive">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    h4 {
+      text-align: center;
+    }
+    .datetime {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .jadwal {
+      margin-bottom: 5px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .label {
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .content {
+      display: none;
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .btn {
+      display: block;
+      width: 94%;
+      padding: 10px;
+      margin: 5px 0;
+      text-align: center;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Tampilan saat akses ditolak */
+    .access-denied {
+      display: none;
+      color: #dc2626;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Pesan jika dibuka tanpa token -->
+<div id="accessDenied" class="access-denied">
+  <h2>Akses Ditolak</h2>
+  <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
+</div>
+
+<!-- Konten Utama (Default tersembunyi sampai token terverifikasi) -->
+<div class="container" id="mainContainer" style="display: none;">
+  <h2 style="margin-top: 0;">ASESMEN KELAS XII </h2>
+ <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
+ <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
+ </marquee>
+  <div class="datetime" id="datetime"></div>
+
+  <!-- JAM KE-1 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">UJI COBA LAB EXAM</div>
+    <div class="content">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?usp=header" class="btn">Uji Coba Lab Exam</a>
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+	</div>
+  </div>
+          
+  <!-- JAM KE-2 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-2</div>
+    <div class="content">
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
+
+<!-- JAM KE-3 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-3</div>
+    <div class="content">
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
+  
+  <!-- UMUM -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
+    <div class="content">
+		<a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>	  	  
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform" class="btn">AS BAB1 PP</a>
+	<a href="https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform" class="btn">Pra ASTS-1 Kimia XII-2</a>
+	<a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a>	
+  </div>
+
+</div>
+
+<script>
+  // Validasi Security Token dari URL
+  const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
+
+  function checkAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('key');
+
+    if (token === EXPECTED_TOKEN) {
+      document.getElementById('mainContainer').style.display = 'block';
+    } else {
+      document.getElementById('accessDenied').style.display = 'block';
+    }
+  }
+
+  // Jalankan pemeriksaan akses saat halaman dimuat
+  checkAccess();
+
+  // Toggle buka-tutup
+  function toggle(el) {
+    let content = el.nextElementSibling;
+    content.style.display = (content.style.display === "block") ? "none" : "block";
+  }
+
+  // Tanggal & jam
+  function updateDateTime() {
+    const now = new Date();
+
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
+                   "Juli","Agustus","September","Oktober","November","Desember"];
+
+    let h = hari[now.getDay()];
+    let tgl = now.getDate();
+    let bln = bulan[now.getMonth()];
+    let thn = now.getFullYear();
+
+    let jam = now.getHours().toString().padStart(2,'0');
+    let menit = now.getMinutes().toString().padStart(2,'0');
+    let detik = now.getSeconds().toString().padStart(2,'0');
+
+    document.getElementById("datetime").innerHTML =
+      h + ", " + tgl + " " + bln + " " + thn + "<br>" +
+      jam + ":" + menit + ":" + detik;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  // Nonaktifkan klik kanan
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+  // Paksa buka di halaman yang sama
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = this.href;
+    });
+
+    link.addEventListener('auxclick', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>
+
+</body>
+</html>
