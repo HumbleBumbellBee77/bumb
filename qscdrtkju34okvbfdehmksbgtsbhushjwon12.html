@@ -3,199 +3,409 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Soal</title>
-
+  <title>Asesmen SMALAB</title>
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
+      user-select: none;
+    }
+
+    body {
       background: #f4f6f8;
       display: flex;
       justify-content: center;
+      min-height: 100vh;
     }
 
-    .container {
+    .app-container {
       width: 100%;
       max-width: 500px;
+      background: #f4f6f8;
+      min-height: 100vh;
+    }
+
+    /* FULLSCREEN OVERLAY PROMPT */
+    #fullscreenOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      text-align: center;
       padding: 20px;
     }
 
-    h2 {
+    #fullscreenOverlay button {
+      margin-top: 20px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* TOP NAVIGATION BAR */
+    .navbar {
+      background: #1e293b;
+      display: flex;
+      justify-content: space-around;
+      padding: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-item {
+      color: #94a3b8;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .nav-item.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    /* TAB CONTENT PANELS */
+    .tab-content {
+      display: none;
+      padding: 20px 16px;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* HOME TAB STYLES */
+    .home-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1e293b;
+      margin-top: 10px;
       text-align: center;
     }
 
-    h4 {
+    .home-sub {
+      font-size: 13px;
+      color: #3b82f6;
+      margin-top: 4px;
+      margin-bottom: 20px;
       text-align: center;
     }
+
+    .home-img {
+      max-width: 85%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .home-footer {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 15px;
+    }
+
+    /* CLASS TAB STYLES */
+    .class-header {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .running-text {
+      width: 100%;
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
     .datetime {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: bold;
+      font-size: 14px;
+      color: #1e293b;
+      line-height: 1.4;
+      cursor: pointer;
     }
 
-    .jadwal {
-      margin-bottom: 5px;
+    /* ACCORDION / JADWAL BUTTONS */
+    .jadwal-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .jadwal-item {
+      width: 100%;
       border-radius: 10px;
       overflow: hidden;
     }
 
-    .label {
-      background: #007bff;
+    .label-btn {
+      width: 100%;
+      background: #2563eb;
       color: white;
-      padding: 10px;
-      cursor: pointer;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
       border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
     }
 
-    .content {
+    .content-box {
       display: none;
       background: #ffffff;
       padding: 10px;
+      border-radius: 0 0 10px 10px;
+      margin-top: -4px;
     }
 
-    .btn {
+    .exam-link {
       display: block;
-      width: 94%;
-      padding: 10px;
-      margin: 5px 0;
+      width: 95%;
+      margin: 5px auto;
+      padding: 12px;
       text-align: center;
-      background: #28a745;
+      background: #22c55e;
       color: white;
       text-decoration: none;
+      font-weight: bold;
       border-radius: 8px;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Tampilan saat akses ditolak */
-    .access-denied {
-      display: none;
-      color: #dc2626;
-      text-align: center;
-      margin-top: 50px;
     }
   </style>
 </head>
+<body oncontextmenu="return false;">
 
-<body>
-
-<!-- Pesan jika dibuka tanpa token -->
-
-<!-- Konten Utama (Default tersembunyi sampai token terverifikasi) -->
-<div class="container" id="mainContainer" style="display: block;">
-  <h2 style="margin-top: 0;">ASESMEN KELAS XII </h2>
- <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
- <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
- </marquee>
-  <div class="datetime" id="datetime"></div>
-
-  <!-- JAM KE-1 -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">UJI COBA LAB EXAM</div>
-    <div class="content">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?usp=header" class="btn">Uji Coba Lab Exam</a>
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-	</div>
+  <!-- OVERLAY UNTUK MEMAKSA FULLSCREEN -->
+  <div id="fullscreenOverlay">
+    <h2>Mode Ujian Diharuskan</h2>
+    <p style="margin-top: 10px; font-size: 14px; color: #cbd5e1;">Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
+    <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
   </div>
-          
-  <!-- JAM KE-2 -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">Jam ke-2</div>
-    <div class="content">
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+
+  <div class="app-container">
+
+    <!-- NAVIGATION TAB -->
+    <nav class="navbar">
+      <div class="nav-item" onclick="switchTab('home', this)">Home</div>
+      <div class="nav-item" onclick="switchTab('kelas10', this)">Kelas X</div>
+      <div class="nav-item" onclick="switchTab('kelas11', this)">Kelas XI</div>
+      <div class="nav-item active" onclick="switchTab('kelas12', this)">Kelas XII</div>
+    </nav>
+
+    <!-- TAB 1: HOME -->
+    <div id="home" class="tab-content">
+      <div class="home-title">SMA KRISTEN SATYA WACANA</div>
+      <div class="home-sub">Leader - Explorer - Achiever - Disciple</div>
+      <img src="https://pkpbssejati-svg.github.io/PkPBsSejati-svg/asesmen.png" alt="Asesmen" class="home-img">
+      <div class="home-footer">n03g</div>
     </div>
-  </div>
 
-<!-- JAM KE-3 -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">Jam ke-3</div>
-    <div class="content">
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    <!-- TAB 2: KELAS X -->
+    <div id="kelas10" class="tab-content">
+      <div class="class-header">ASESMEN KELAS X</div>
+      <div class="running-text">Takut akan TUHAN adalah permulaan pengetahuan</div>
+      <div class="datetime secret-trigger" onclick="handleSecretTap()">-- Loading Date --</div>
+
+      <div class="jadwal-group">
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">Jam ke-1</button>
+          <div class="content-box">
+            <a href="https://linksoal1c.com" class="exam-link">Paket C</a>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- TAB 3: KELAS XI -->
+    <div id="kelas11" class="tab-content">
+      <div class="class-header">ASESMEN KELAS XI</div>
+      <div class="running-text">Takut akan TUHAN adalah permulaan pengetahuan</div>
+      <div class="datetime secret-trigger" onclick="handleSecretTap()">-- Loading Date --</div>
+
+      <div class="jadwal-group">
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">Jam ke-1</button>
+          <div class="content-box">
+            <a href="https://linksoal1c.com" class="exam-link">Paket C</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: KELAS XII -->
+    <div id="kelas12" class="tab-content active">
+      <div class="class-header">ASESMEN KELAS XII</div>
+      <div class="running-text">Takut akan TUHAN adalah permulaan pengetahuan</div>
+      <div class="datetime secret-trigger" onclick="handleSecretTap()">-- Loading Date --</div>
+
+      <div class="jadwal-group">
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">UJI COBA LAB EXAM</button>
+          <div class="content-box">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDj1Dr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform" class="exam-link">Buka Soal Form</a>
+          </div>
+        </div>
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">Jam ke-2</button>
+          <div class="content-box">
+            <a href="https://linksoal1c.com" class="exam-link">Paket C</a>
+          </div>
+        </div>
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">Jam ke-3</button>
+          <div class="content-box">
+            <a href="https://linksoal1c.com" class="exam-link">Paket C</a>
+          </div>
+        </div>
+        <div class="jadwal-item">
+          <button class="label-btn" onclick="toggleAccordion(this)">UH - REMIDI - Literasi/Numerasi</button>
+          <div class="content-box">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScHdQYa3bui2mj9m7zBt4dzUeAhHb6yiKq8zQW2ZfNxabWIOw/viewform" class="exam-link">UH Fisika</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  
-  <!-- UMUM -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
-    <div class="content">
-		<a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>	  	  
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform" class="btn">AS BAB1 PP</a>
-	<a href="https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform" class="btn">Pra ASTS-1 Kimia XII-2</a>
-	<a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a>	
-  </div>
 
-</div>
+  <script>
+    let isSecretUnlocked = false;
 
-<script>
-  // Validasi Security Token dari URL
-  const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
-
-  function checkAccess() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('key');
-
-    if (token === EXPECTED_TOKEN) {
-      document.getElementById('mainContainer').style.display = 'block';
-    } else {
-      document.getElementById('accessDenied').style.display = 'block';
+    // Force Fullscreen Handler
+    function enterFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
     }
-  }
 
-  // Jalankan pemeriksaan akses saat halaman dimuat
-  // checkAccess();
+    // Deteksi keluar Fullscreen
+    document.addEventListener('fullscreenchange', exitHandler);
+    document.addEventListener('webkitfullscreenchange', exitHandler);
 
-  // Toggle buka-tutup
-  function toggle(el) {
-    let content = el.nextElementSibling;
-    content.style.display = (content.style.display === "block") ? "none" : "block";
-  }
+    function exitHandler() {
+      if (!document.fullscreenElement && !document.webkitIsFullScreen) {
+        if (!isSecretUnlocked) {
+          document.getElementById('fullscreenOverlay').style.display = 'flex';
+        }
+      } else {
+        document.getElementById('fullscreenOverlay').style.display = 'none';
+      }
+    }
 
-  // Tanggal & jam
-  function updateDateTime() {
-    const now = new Date();
+    // SECRET EXIT FEATURE (Tap Teks Jam 5x)
+    let tapCount = 0;
+    let tapTimer = null;
 
-    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-    const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
-                   "Juli","Agustus","September","Oktober","November","Desember"];
+    function handleSecretTap() {
+      tapCount++;
+      clearTimeout(tapTimer);
 
-    let h = hari[now.getDay()];
-    let tgl = now.getDate();
-    let bln = bulan[now.getMonth()];
-    let thn = now.getFullYear();
+      if (tapCount >= 5) {
+        isSecretUnlocked = true;
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        tapCount = 0;
+      } else {
+        tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+      }
+    }
 
-    let jam = now.getHours().toString().padStart(2,'0');
-    let menit = now.getMinutes().toString().padStart(2,'0');
-    let detik = now.getSeconds().toString().padStart(2,'0');
+    // Tab Switching Logic
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
 
-    document.getElementById("datetime").innerHTML =
-      h + ", " + tgl + " " + bln + " " + thn + "<br>" +
-      jam + ":" + menit + ":" + detik;
-  }
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+    }
 
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
+    // Toggle Accordions
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      content.style.display = (content.style.display === "block") ? "none" : "block";
+    }
 
-  // Nonaktifkan klik kanan
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  });
+    // Live Date & Time Counter (Identik dengan format script GitHub)
+    function updateDateTime() {
+      const now = new Date();
+      const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+      const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
+                     "Juli","Agustus","September","Oktober","November","Desember"];
 
-  // Paksa buka di halaman yang sama
-  document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', function(e) {
+      let h = hari[now.getDay()];
+      let tgl = now.getDate();
+      let bln = bulan[now.getMonth()];
+      let thn = now.getFullYear();
+
+      let jam = now.getHours().toString().padStart(2,'0');
+      let menit = now.getMinutes().toString().padStart(2,'0');
+      let detik = now.getSeconds().toString().padStart(2,'0');
+
+      const formattedString = h + ", " + tgl + " " + bln + " " + thn + "<br>" +
+                              jam + ":" + menit + ":" + detik;
+
+      document.querySelectorAll('.secret-trigger').forEach(el => {
+        el.innerHTML = formattedString;
+      });
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Nonaktifkan Klik Kanan
+    document.addEventListener('contextmenu', function(e) {
       e.preventDefault();
-      window.location.href = this.href;
     });
 
-    link.addEventListener('auxclick', function(e) {
-      e.preventDefault();
-    });
-  });
-</script>
+    // Buka Tautan di Halaman yang Sama
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = this.href;
+      });
 
+      link.addEventListener('auxclick', function(e) {
+        e.preventDefault();
+      });
+    });
+  </script>
 </body>
 </html>
