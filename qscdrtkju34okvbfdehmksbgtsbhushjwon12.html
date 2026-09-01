@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Menu Soal - Asesmen Kelas XII</title>
-
+  <title>SMA Kristen Satya Wacana - Asesmen</title>
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
     :root {
-      --primary-color: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-color: #f8fafc;
+      --nav-bg: #4a5568;
+      --nav-active: #2b6cb0;
+      --primary-blue: #3182ce;
+      --accent-green: #38a169;
+      --bg-color: #f7fafc;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --btn-bg: #16a34a;
-      --btn-hover: #15803d;
-      --border-radius: 12px;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --text-main: #2d3748;
+      --border-radius: 10px;
     }
 
     * {
@@ -30,225 +27,240 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       min-height: 100vh;
-      padding: 20px 16px;
     }
 
-    /* FULLSCREEN OVERLAY PROMPT */
+    /* FULLSCREEN OVERLAY FOR ANTI-CHEAT */
     #fullscreenOverlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: #090d16;
-      color: #ffffff;
+      background: #0f172a;
+      color: white;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       text-align: center;
-      padding: 24px;
+      padding: 20px;
     }
 
-    #fullscreenOverlay h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    #fullscreenOverlay p {
-      margin-top: 8px;
-      font-size: 0.95rem;
-      color: #94a3b8;
-    }
-
+    #fullscreenOverlay h2 { font-size: 1.4rem; margin-bottom: 8px; }
+    #fullscreenOverlay p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; }
     #fullscreenOverlay button {
-      margin-top: 24px;
-      padding: 12px 28px;
+      padding: 12px 24px;
       font-size: 0.95rem;
-      font-weight: 600;
-      background: var(--primary-color);
+      font-weight: bold;
+      background: var(--primary-blue);
       color: white;
       border: none;
-      border-radius: var(--border-radius);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* TOP NAVIGATION BAR */
+    .navbar {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      background: #edf2f7;
+      padding: 6px;
+      gap: 6px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 10px 4px;
+      text-align: center;
+      background: var(--nav-bg);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease;
     }
 
-    #fullscreenOverlay button:hover {
-      background: var(--primary-hover);
+    .nav-btn.active {
+      background: var(--nav-active);
     }
 
+    /* MAIN CONTAINER */
     .container {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      align-items: center;
     }
 
-    .header-card {
-      background: var(--card-bg);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
+    .tab-content {
+      display: none;
+      width: 100%;
       text-align: center;
     }
 
-    .header-card h2 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: var(--text-main);
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .running-text-container {
-      background: #eff6ff;
-      border-radius: 8px;
-      padding: 6px 12px;
-      margin: 12px 0;
+    /* HOME TAB STYLING */
+    .school-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-top: 10px;
     }
 
-    .running-text h4 {
+    .school-motto {
+      font-size: 0.8rem;
+      color: #718096;
+      margin: 6px 0 20px 0;
+    }
+
+    .hero-img-card {
+      width: 85%;
+      max-width: 320px;
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-img-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    /* CLASS PAGES (X, XI, XII) STYLING */
+    .page-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .running-text {
       font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--primary-color);
+      color: #4a5568;
+      margin-bottom: 8px;
     }
 
     .datetime {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      line-height: 1.4;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #718096;
+      margin-bottom: 16px;
       cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      transition: background 0.2s ease;
     }
 
-    .datetime:active {
-      background: #e2e8f0;
+    /* ACCORDION / MENU CARDS */
+    .jadwal-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    /* ACCORDION JADWAL */
     .jadwal {
-      background: var(--card-bg);
+      width: 100%;
       border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .label {
-      background: var(--primary-color);
+      background: var(--primary-blue);
       color: white;
-      padding: 14px 18px;
+      padding: 12px;
+      font-size: 0.9rem;
       font-weight: 600;
-      font-size: 0.95rem;
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.2s ease;
-    }
-
-    .label:hover {
-      background: var(--primary-hover);
-    }
-
-    .label::after {
-      content: '▼';
-      font-size: 0.75rem;
-      transition: transform 0.3s ease;
-    }
-
-    .jadwal.active .label::after {
-      transform: rotate(180deg);
+      border-radius: var(--border-radius);
+      text-align: center;
     }
 
     .content {
       display: none;
-      padding: 12px;
+      padding: 8px;
+      background: transparent;
       flex-direction: column;
-      gap: 8px;
-      background: var(--card-bg);
-      border-top: 1px solid #e2e8f0;
+      gap: 6px;
     }
 
     .jadwal.active .content {
       display: flex;
     }
 
-    .btn {
+    .btn-soal {
       display: block;
       width: 100%;
-      padding: 12px 14px;
+      padding: 10px;
       text-align: center;
-      background: var(--btn-bg);
+      background: var(--accent-green);
       color: white;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.2s ease, transform 0.1s ease;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
+      text-decoration: none;
     }
 
-    .btn:hover {
-      background: var(--btn-hover);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    /* EMBEDDED EXAM MODAL / IFRAME */
-    #examModal {
+    /* EMBEDDED IFRAME EXAM VIEW (MAINTAINS UI BELOW NAVBAR) */
+    #examFrameContainer {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #ffffff;
-      z-index: 10000;
+      width: 100%;
+      max-width: 500px;
+      flex: 1;
+      height: calc(100vh - 60px);
       flex-direction: column;
+      background: white;
     }
 
-    #examHeader {
-      height: 50px;
-      background: #0f172a;
+    #examHeaderBar {
+      height: 40px;
+      background: #2d3748;
       color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 16px;
-    }
-
-    #examHeader span {
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 0 12px;
+      font-size: 0.8rem;
     }
 
     #closeExamBtn {
-      background: #dc2626;
+      background: #e53e3e;
       color: white;
       border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
       cursor: pointer;
     }
 
     #examIframe {
       width: 100%;
-      height: calc(100vh - 50px);
+      height: calc(100% - 40px);
       border: none;
     }
   </style>
@@ -256,79 +268,118 @@
 
 <body oncontextmenu="return false;">
 
-  <!-- OVERLAY UNTUK MEMAKSA FULLSCREEN -->
+  <!-- FULLSCREEN OVERLAY -->
   <div id="fullscreenOverlay">
     <h2>Mode Ujian Diharuskan</h2>
     <p>Anda harus masuk ke mode layar penuh untuk mengakses soal.</p>
     <button onclick="enterFullscreen()">Masuk Layar Penuh</button>
   </div>
 
-  <!-- EMBEDDED EXAM CONTAINER (KEPT INSIDE THE WEBSITE) -->
-  <div id="examModal">
-    <div id="examHeader">
+  <!-- TOP NAVIGATION BAR -->
+  <div class="navbar">
+    <button class="nav-btn active" onclick="switchTab('homeTab', this)">Home</button>
+    <button class="nav-btn" onclick="switchTab('kelasXTab', this)">Kelas X</button>
+    <button class="nav-btn" onclick="switchTab('kelasXITab', this)">Kelas XI</button>
+    <button class="nav-btn" onclick="switchTab('kelasXIITab', this)">Kelas XII</button>
+  </div>
+
+  <!-- MAIN CONTAINER FOR TABS -->
+  <div class="container" id="mainContainer">
+
+    <!-- HOME TAB -->
+    <div id="homeTab" class="tab-content active">
+      <div class="school-title">SMA KRISTEN SATYA WACANA</div>
+      <div class="school-motto">Leader - Explorer - Archiever - Disciple</div>
+      
+      <div class="hero-img-card">
+        <!-- Replace src with your official image link or relative path -->
+        <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="90" fill="#EBF8FF" stroke="#3182CE" stroke-width="4"/>
+          <path d="M60 130L100 60L140 130H60Z" fill="#3182CE"/>
+          <text x="100" y="155" text-anchor="middle" fill="#2B6CB0" font-size="12" font-weight="bold">ASESMEN</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- KELAS X TAB -->
+    <div id="kelasXTab" class="tab-content">
+      <div class="page-title">ASESMEN KELAS X</div>
+      <marquee class="running-text" scrollamount="5">Takut akan TUHAN adalah permulaan pengetahuan</marquee>
+      <div class="datetime" onclick="handleSecretTap()"></div>
+      
+      <div class="jadwal-group">
+        <div class="jadwal">
+          <div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div>
+          <div class="content">
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?embedded=true')" class="btn-soal">Uji Coba Lab Exam</button>
+          </div>
+        </div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-2</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-3</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div></div>
+      </div>
+    </div>
+
+    <!-- KELAS XI TAB -->
+    <div id="kelasXITab" class="tab-content">
+      <div class="page-title">ASESMEN KELAS XI</div>
+      <marquee class="running-text" scrollamount="5">Takut akan TUHAN adalah permulaan pengetahuan</marquee>
+      <div class="datetime" onclick="handleSecretTap()"></div>
+      
+      <div class="jadwal-group">
+        <div class="jadwal"><div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-2</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-3</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div></div>
+      </div>
+    </div>
+
+    <!-- KELAS XII TAB -->
+    <div id="kelasXIITab" class="tab-content">
+      <div class="page-title">ASESMEN KELAS XII</div>
+      <marquee class="running-text" scrollamount="5">Takut akan TUHAN adalah permulaan pengetahuan</marquee>
+      <div class="datetime" onclick="handleSecretTap()"></div>
+      
+      <div class="jadwal-group">
+        <div class="jadwal">
+          <div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div>
+          <div class="content">
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?embedded=true')" class="btn-soal">Uji Coba Lab Exam</button>
+          </div>
+        </div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-2</div></div>
+        <div class="jadwal"><div class="label" onclick="toggle(this)">Jam ke-3</div></div>
+        <div class="jadwal">
+          <div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
+          <div class="content">
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?embedded=true')" class="btn-soal">Remidi Fisika Listrik Statis</button>
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform?embedded=true')" class="btn-soal">AS BAB1 PP</button>
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform?embedded=true')" class="btn-soal">Pra ASTS-1 Kimia XII-2</button>
+            <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform?embedded=true')" class="btn-soal">Pra ASTS-1 Kimia XII-3</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EMBEDDED IFRAME FOR EXAMS (UI REMAINS INTACT) -->
+  <div id="examFrameContainer">
+    <div id="examHeaderBar">
       <span>Lembar Soal Asesmen</span>
       <button id="closeExamBtn" onclick="closeExam()">Tutup Soal</button>
     </div>
     <iframe id="examIframe" src="about:blank"></iframe>
   </div>
 
-  <div class="container" id="mainContainer">
-    <div class="header-card">
-      <h2>ASESMEN KELAS XII</h2>
-      
-      <div class="running-text-container">
-        <marquee class="running-text" behavior="scroll" direction="left" scrollamount="5">
-          <h4>Takut akan TUHAN adalah permulaan pengetahuan</h4>
-        </marquee>
-      </div>
-
-      <div class="datetime" id="datetime" onclick="handleSecretTap()"></div>
-    </div>
-
-    <!-- JAM KE-1 -->
-    <div class="jadwal">
-      <div class="label" onclick="toggle(this)">UJI COBA LAB EXAM</div>
-      <div class="content">
-        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?embedded=true')" class="btn">Uji Coba Lab Exam</button>
-      </div>
-    </div>
-            
-    <!-- JAM KE-2 -->
-    <div class="jadwal">
-      <div class="label" onclick="toggle(this)">Jam ke-2</div>
-      <div class="content">
-        <button onclick="openExam('https://linksoal1c.com')" class="btn" style="display:none;">Paket C</button>
-      </div>
-    </div>
-
-    <!-- JAM KE-3 -->
-    <div class="jadwal">
-      <div class="label" onclick="toggle(this)">Jam ke-3</div>
-      <div class="content">
-        <button onclick="openExam('https://linksoal1c.com')" class="btn" style="display:none;">Paket C</button>
-      </div>
-    </div>
-    
-    <!-- UMUM -->
-    <div class="jadwal">
-      <div class="label" onclick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
-      <div class="content">
-        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?embedded=true')" class="btn">Remidi Fisika Listrik Statis</button>         
-        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform?embedded=true')" class="btn">AS BAB1 PP</button>
-        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform?embedded=true')" class="btn">Pra ASTS-1 Kimia XII-2</button>
-        <button onclick="openExam('https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform?embedded=true')" class="btn">Pra ASTS-1 Kimia XII-3</button> 
-      </div>
-    </div>
-  </div>
-
 <script>
   let isSecretUnlocked = false;
 
-  // Detect iOS / iPhone / iPad
+  // iOS / iPhone Detection
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-  // Force Fullscreen Handler (Supports Android, Desktop, & Fallback for iPhone)
+  // FULLSCREEN HANDLER WITH IPHONE FALLBACK
   function enterFullscreen() {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -339,50 +390,65 @@
       elem.msRequestFullscreen();
     }
     
-    // On iPhone/iOS where standard HTML Fullscreen is unsupported, dismiss overlay manually
+    // On iPhone/iOS, dismiss overlay manually since Fullscreen API is unsupported by Apple
     if (isIOS) {
       document.getElementById('fullscreenOverlay').style.display = 'none';
     }
   }
 
-  // Deteksi keluar Fullscreen
   document.addEventListener('fullscreenchange', exitHandler);
   document.addEventListener('webkitfullscreenchange', exitHandler);
-  document.addEventListener('msfullscreenchange', exitHandler);
 
   function exitHandler() {
-    // Skip native fullscreen state checks for iOS devices
     if (isIOS) return;
-
-    const isFS = document.fullscreenElement || document.webkitIsFullScreen || document.msFullscreenElement;
-    if (!isFS) {
-      if (!isSecretUnlocked) {
-        document.getElementById('fullscreenOverlay').style.display = 'flex';
-      }
+    const isFS = document.fullscreenElement || document.webkitIsFullScreen;
+    if (!isFS && !isSecretUnlocked) {
+      document.getElementById('fullscreenOverlay').style.display = 'flex';
     } else {
       document.getElementById('fullscreenOverlay').style.display = 'none';
     }
   }
 
-  // OPEN EXAM INSIDE EMBEDDED IFRAME
+  // NAVIGATION TAB SWITCHER
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+
+    // Hide iframe if open when changing tabs
+    closeExam();
+  }
+
+  // ACCORDION TOGGLE
+  function toggle(el) {
+    const parent = el.parentElement;
+    parent.classList.toggle('active');
+  }
+
+  // OPEN EXAM IN IFRAME (KEEP UI INTACT)
   function openExam(url) {
-    const modal = document.getElementById('examModal');
+    document.getElementById('mainContainer').style.display = 'none';
+    const frameContainer = document.getElementById('examFrameContainer');
     const iframe = document.getElementById('examIframe');
+    
     iframe.src = url;
-    modal.style.display = 'flex';
+    frameContainer.style.display = 'flex';
   }
 
   function closeExam() {
-    const modal = document.getElementById('examModal');
+    const frameContainer = document.getElementById('examFrameContainer');
     const iframe = document.getElementById('examIframe');
+    
     iframe.src = 'about:blank';
-    modal.style.display = 'none';
+    frameContainer.style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'flex';
   }
 
-  // SECRET EXIT FEATURE (Tap Teks Jam 5x)
+  // SECRET EXIT (TAP TIME 5X)
   let tapCount = 0;
   let tapTimer = null;
-
   function handleSecretTap() {
     tapCount++;
     clearTimeout(tapTimer);
@@ -393,8 +459,6 @@
         document.exitFullscreen().catch(() => {});
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
       }
       document.getElementById('fullscreenOverlay').style.display = 'none';
       tapCount = 0;
@@ -403,16 +467,9 @@
     }
   }
 
-  // Toggle buka-tutup accordion
-  function toggle(el) {
-    const parent = el.parentElement;
-    parent.classList.toggle('active');
-  }
-
-  // Tanggal & jam
+  // DATE & TIME TICKER
   function updateDateTime() {
     const now = new Date();
-
     const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
     const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
                    "Juli","Agustus","September","Oktober","November","Desember"];
@@ -421,23 +478,16 @@
     let tgl = now.getDate();
     let bln = bulan[now.getMonth()];
     let thn = now.getFullYear();
-
     let jam = now.getHours().toString().padStart(2,'0');
     let menit = now.getMinutes().toString().padStart(2,'0');
     let detik = now.getSeconds().toString().padStart(2,'0');
 
-    document.getElementById("datetime").innerHTML =
-      h + ", " + tgl + " " + bln + " " + thn + "<br>" +
-      jam + ":" + menit + ":" + detik;
+    const str = `${h}, ${tgl} ${bln} ${thn}<br>${jam}:${menit}:${detik}`;
+    document.querySelectorAll('.datetime').forEach(el => el.innerHTML = str);
   }
 
   setInterval(updateDateTime, 1000);
   updateDateTime();
-
-  // Nonaktifkan klik kanan
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  });
 </script>
 
 </body>
