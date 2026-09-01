@@ -31,12 +31,12 @@
     }
     .datetime {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-weight: bold;
     }
 
     .jadwal {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -44,7 +44,7 @@
     .label {
       background: #007bff;
       color: white;
-      padding: 12px;
+      padding: 10px;
       cursor: pointer;
       border-radius: 10px;
     }
@@ -57,8 +57,8 @@
 
     .btn {
       display: block;
-      width: 95%;
-      padding: 12px;
+      width: 94%;
+      padding: 10px;
       margin: 5px 0;
       text-align: center;
       background: #28a745;
@@ -70,43 +70,88 @@
     .btn:active {
       transform: scale(0.98);
     }
+
+    /* Tampilan saat akses ditolak */
+    .access-denied {
+      display: none;
+      color: #dc2626;
+      text-align: center;
+      margin-top: 50px;
+    }
   </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>ASESMEN KELAS XII </h2>
-  <h4>Takut akan TUHAN adalah permulaan pengetahuan </h4>
+<!-- Pesan jika dibuka tanpa token -->
+<div id="accessDenied" class="access-denied">
+  <h2>Akses Ditolak</h2>
+  <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
+</div>
+
+<!-- Konten Utama (Default tersembunyi sampai token terverifikasi) -->
+<div class="container" id="mainContainer" style="display: none;">
+  <h2 style="margin-top: 0;">ASESMEN KELAS XII </h2>
+ <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
+ <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
+ </marquee>
   <div class="datetime" id="datetime"></div>
 
   <!-- JAM KE-1 -->
   <div class="jadwal">
-    <div class="label" onClick="toggle(this)">Jam ke-1</div>
+    <div class="label" onClick="toggle(this)">UJI COBA LAB EXAM</div>
     <div class="content">
-      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-    </div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmDjlDr2cOspzXQ01QsqgH1SKmGRc_x55UpN1RFS2yF8rNJg/viewform?usp=header" class="btn">Uji Coba Lab Exam</a>
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+	</div>
   </div>
-
+          
   <!-- JAM KE-2 -->
   <div class="jadwal">
     <div class="label" onClick="toggle(this)">Jam ke-2</div>
     <div class="content">
-      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a> 	  
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
     </div>
   </div>
 
-  <!-- JAM KE-3 -->
+<!-- JAM KE-3 -->
   <div class="jadwal">
     <div class="label" onClick="toggle(this)">Jam ke-3</div>
     <div class="content">
-      <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
     </div>
+  </div>
+  
+  <!-- UMUM -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">UH - REMIDI - Literasi/Numerasi</div>
+    <div class="content">
+		<a href="https://docs.google.com/forms/d/e/1FAIpQLSdjuSJJbtRl_b0mxGBtRhQerp3IiJ3gDy-qimSeWEKb1LL18g/viewform?usp=header" class="btn">Remidi Fisika Listrik Statis</a>	  	  
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSct17dm1s1zMGoSbfNQn6HQUXJQ4ASmWbVDDea_MdvxphrB0A/viewform" class="btn">AS BAB1 PP</a>
+	<a href="https://docs.google.com/forms/d/e/1FAIpQLScZY_EyR8K-T0Ye0eBBe_jgY-7sUbTSzSuLt6JMmJQdMH37Vw/viewform" class="btn">Pra ASTS-1 Kimia XII-2</a>
+	<a href="https://docs.google.com/forms/d/e/1FAIpQLSftFi6AUxclMwRe-HHKf3pJCV6ldwT3XDRAjf0r1Lp9ZhmDbw/viewform" class="btn">Pra ASTS-1 Kimia XII-3</a>	
   </div>
 
 </div>
 
 <script>
+  // Validasi Security Token dari URL
+  const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
+
+  function checkAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('key');
+
+    if (token === EXPECTED_TOKEN) {
+      document.getElementById('mainContainer').style.display = 'block';
+    } else {
+      document.getElementById('accessDenied').style.display = 'block';
+    }
+  }
+
+  // Jalankan pemeriksaan akses saat halaman dimuat
+  checkAccess();
+
   // Toggle buka-tutup
   function toggle(el) {
     let content = el.nextElementSibling;
